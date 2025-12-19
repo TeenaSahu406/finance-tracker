@@ -528,6 +528,40 @@
                 grid-template-columns: 1fr;
             }
         }
+        
+        /* EMPTY STATE */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+        }
+        
+        .empty-icon {
+            width: 80px;
+            height: 80px;
+            background: #e9ecef;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            font-size: 32px;
+            color: var(--gray);
+        }
+        
+        .empty-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+        
+        .empty-text {
+            color: var(--gray);
+            margin-bottom: 30px;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
     </style>
 </head>
 <body>
@@ -940,10 +974,8 @@
                 
                 localStorage.setItem('fintrack_user', JSON.stringify(currentUser));
                 
-                // Load demo data for new users
-                if (!localStorage.getItem('fintrack_transactions')) {
-                    loadDemoTransactions();
-                }
+                // Load user's transactions (NO DEMO DATA)
+                loadUserTransactions();
                 
                 showToast('Login successful!', 'success');
                 showDashboard();
@@ -961,8 +993,9 @@
                 
                 localStorage.setItem('fintrack_user', JSON.stringify(currentUser));
                 
-                // Load demo data for new users
-                loadDemoTransactions();
+                // Start with empty transactions for new user
+                transactions = [];
+                saveTransactions();
                 
                 showToast('Registration successful!', 'success');
                 showDashboard();
@@ -974,6 +1007,23 @@
             localStorage.removeItem('fintrack_user');
             showLogin();
             showToast('Logged out successfully', 'success');
+        }
+
+        // TRANSACTION FUNCTIONS
+        function loadUserTransactions() {
+            const userKey = `fintrack_transactions_${currentUser.email}`;
+            const saved = localStorage.getItem(userKey);
+            if (saved) {
+                transactions = JSON.parse(saved);
+            } else {
+                transactions = []; // EMPTY - NO DEMO DATA
+                saveTransactions();
+            }
+        }
+
+        function saveTransactions() {
+            const userKey = `fintrack_transactions_${currentUser.email}`;
+            localStorage.setItem(userKey, JSON.stringify(transactions));
         }
 
         // PAGE NAVIGATION
@@ -1040,8 +1090,8 @@
             // Update user info
             document.getElementById('userName').textContent = currentUser.name;
             
-            // Load transactions
-            loadTransactions();
+            // Load user's transactions
+            loadUserTransactions();
             
             // Update stats
             updateStats();
@@ -1051,13 +1101,6 @@
             
             // Update recent transactions
             updateRecentTransactions();
-        }
-
-        function loadTransactions() {
-            const saved = localStorage.getItem('fintrack_transactions');
-            if (saved) {
-                transactions = JSON.parse(saved);
-            }
         }
 
         function updateStats() {
@@ -1089,29 +1132,42 @@
                 else expenseTotal += t.amount;
             });
             
+            // Destroy previous chart if exists
             if (charts.incomeExpense) {
                 charts.incomeExpense.destroy();
             }
             
-            charts.incomeExpense = new Chart(incomeExpenseCtx, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Income', 'Expenses'],
-                    datasets: [{
-                        data: [incomeTotal, expenseTotal],
-                        backgroundColor: ['#28a745', '#f72585'],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            position: 'bottom'
+            // Only create chart if there is data
+            if (incomeTotal > 0 || expenseTotal > 0) {
+                charts.incomeExpense = new Chart(incomeExpenseCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Income', 'Expenses'],
+                        datasets: [{
+                            data: [incomeTotal, expenseTotal],
+                            backgroundColor: ['#28a745', '#f72585'],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'bottom'
+                            }
                         }
                     }
-                }
-            });
+                });
+            } else {
+                // Show empty chart message
+                incomeExpenseCtx.clearRect(0, 0, incomeExpenseCtx.canvas.width, incomeExpenseCtx.canvas.height);
+                incomeExpenseCtx.font = '16px Arial';
+                incomeExpenseCtx.fillStyle = '#6c757d';
+                incomeExpenseCtx.textAlign = 'center';
+                incomeExpenseCtx.fillText('Add transactions to see charts', 
+                    incomeExpenseCtx.canvas.width / 2, 
+                    incomeExpenseCtx.canvas.height / 2);
+            }
             
             // Category Chart
             const categoryCtx = document.getElementById('categoryChart').getContext('2d');
@@ -1129,34 +1185,47 @@
             const categories = Object.keys(categoryData);
             const amounts = Object.values(categoryData);
             
+            // Destroy previous chart if exists
             if (charts.category) {
                 charts.category.destroy();
             }
             
-            charts.category = new Chart(categoryCtx, {
-                type: 'bar',
-                data: {
-                    labels: categories,
-                    datasets: [{
-                        label: 'Amount',
-                        data: amounts,
-                        backgroundColor: '#4361ee'
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            ticks: {
-                                callback: function(value) {
-                                    return '$' + value;
+            // Only create chart if there is expense data
+            if (categories.length > 0) {
+                charts.category = new Chart(categoryCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: categories,
+                        datasets: [{
+                            label: 'Amount',
+                            data: amounts,
+                            backgroundColor: '#4361ee'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    callback: function(value) {
+                                        return '$' + value;
+                                    }
                                 }
                             }
                         }
                     }
-                }
-            });
+                });
+            } else {
+                // Show empty chart message
+                categoryCtx.clearRect(0, 0, categoryCtx.canvas.width, categoryCtx.canvas.height);
+                categoryCtx.font = '16px Arial';
+                categoryCtx.fillStyle = '#6c757d';
+                categoryCtx.textAlign = 'center';
+                categoryCtx.fillText('Add expense transactions to see category chart', 
+                    categoryCtx.canvas.width / 2, 
+                    categoryCtx.canvas.height / 2);
+            }
         }
 
         function updateRecentTransactions() {
@@ -1165,6 +1234,27 @@
             
             // Show only recent 5 transactions
             const recent = transactions.slice(0, 5);
+            
+            if (recent.length === 0) {
+                // Show empty state
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="5">
+                            <div class="empty-state">
+                                <div class="empty-icon">
+                                    <i class="fas fa-exchange-alt"></i>
+                                </div>
+                                <h3 class="empty-title">No Transactions Yet</h3>
+                                <p class="empty-text">Add your first transaction to get started</p>
+                                <button class="btn" onclick="showAddTransactionModal()" style="width: auto;">
+                                    <i class="fas fa-plus"></i> Add First Transaction
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
             
             recent.forEach(transaction => {
                 const row = document.createElement('tr');
@@ -1179,21 +1269,32 @@
                 `;
                 tbody.appendChild(row);
             });
-            
-            if (recent.length === 0) {
-                tbody.innerHTML = `
-                    <tr>
-                        <td colspan="5" style="text-align: center; padding: 40px; color: var(--gray);">
-                            No transactions yet. Add your first transaction!
-                        </td>
-                    </tr>
-                `;
-            }
         }
 
         function updateTransactionsTable() {
             const tbody = document.getElementById('allTransactionsBody');
             tbody.innerHTML = '';
+            
+            if (transactions.length === 0) {
+                // Show empty state
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="6">
+                            <div class="empty-state">
+                                <div class="empty-icon">
+                                    <i class="fas fa-exchange-alt"></i>
+                                </div>
+                                <h3 class="empty-title">No Transactions Found</h3>
+                                <p class="empty-text">Start by adding your first transaction</p>
+                                <button class="btn" onclick="showAddTransactionModal()" style="width: auto;">
+                                    <i class="fas fa-plus"></i> Add Transaction
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
             
             transactions.forEach(transaction => {
                 const row = document.createElement('tr');
@@ -1213,16 +1314,6 @@
                 `;
                 tbody.appendChild(row);
             });
-            
-            if (transactions.length === 0) {
-                tbody.innerHTML = `
-                    <tr>
-                        <td colspan="6" style="text-align: center; padding: 40px; color: var(--gray);">
-                            No transactions found. Add your first transaction!
-                        </td>
-                    </tr>
-                `;
-            }
         }
 
         function updateProfile() {
@@ -1265,7 +1356,7 @@
             };
             
             transactions.unshift(newTransaction);
-            localStorage.setItem('fintrack_transactions', JSON.stringify(transactions));
+            saveTransactions();
             
             closeTransactionModal();
             showToast('Transaction added successfully!', 'success');
@@ -1281,7 +1372,7 @@
         function deleteTransaction(id) {
             if (confirm('Are you sure you want to delete this transaction?')) {
                 transactions = transactions.filter(t => t.id !== id);
-                localStorage.setItem('fintrack_transactions', JSON.stringify(transactions));
+                saveTransactions();
                 
                 showToast('Transaction deleted successfully!', 'success');
                 updateTransactionsTable();
@@ -1289,57 +1380,13 @@
             }
         }
 
-        // DEMO DATA
-        function loadDemoTransactions() {
-            const demoTransactions = [
-                {
-                    id: 'trans_1',
-                    type: 'income',
-                    category: 'Salary',
-                    description: 'Monthly Salary Deposit',
-                    amount: 4500.00,
-                    date: new Date().toISOString().split('T')[0]
-                },
-                {
-                    id: 'trans_2',
-                    type: 'expense',
-                    category: 'Food',
-                    description: 'Grocery Shopping',
-                    amount: 125.75,
-                    date: new Date().toISOString().split('T')[0]
-                },
-                {
-                    id: 'trans_3',
-                    type: 'expense',
-                    category: 'Transport',
-                    description: 'Gas Refill',
-                    amount: 65.50,
-                    date: new Date(Date.now() - 86400000).toISOString().split('T')[0]
-                },
-                {
-                    id: 'trans_4',
-                    type: 'income',
-                    category: 'Other',
-                    description: 'Freelance Work',
-                    amount: 800.00,
-                    date: new Date(Date.now() - 2 * 86400000).toISOString().split('T')[0]
-                },
-                {
-                    id: 'trans_5',
-                    type: 'expense',
-                    category: 'Bills',
-                    description: 'Electricity Bill',
-                    amount: 85.25,
-                    date: new Date(Date.now() - 3 * 86400000).toISOString().split('T')[0]
-                }
-            ];
-            
-            transactions = demoTransactions;
-            localStorage.setItem('fintrack_transactions', JSON.stringify(transactions));
-        }
-
         // REPORT FUNCTIONS
         function generateReport(type) {
+            if (transactions.length === 0) {
+                showToast('No transactions to generate report', 'error');
+                return;
+            }
+            
             showToast('Generating report...', 'success');
             // Simulate report generation
             setTimeout(() => {
