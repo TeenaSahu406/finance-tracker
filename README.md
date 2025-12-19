@@ -4,7 +4,7 @@ A complete personal finance management application built with modern web technol
 
 ## 🚀 Live Demo
 
-[Click here to try FinTrack](https://yourusername.github.io/fintrack)
+https://finance-tracker-by-teena.netlify.app
 
 **Demo Credentials:**
 - **Email:** `admin@fintrack.com`
@@ -159,12 +159,7 @@ Your data is stored securely and you can:
 | Safari  | 11+     | ✅ Full support |
 | Edge    | 79+     | ✅ Full support |
 
-## 📱 Mobile App
 
-FinTrack is fully responsive and works great on:
-- Smartphones (iOS/Android)
-- Tablets
-- Desktop computers
 
 ## 🤝 Contributing
 
@@ -203,37 +198,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **Font Awesome** for icons
 - All contributors and testers
 
-## 📞 Support
-
-Need help? Here are your options:
-
-- **GitHub Issues**: [Report bugs/request features](https://github.com/yourusername/fintrack/issues)
-- **Email**: support@fintrack.com
-- **Documentation**: [Full user guide](https://docs.fintrack.com)
-
-## 🔄 Updates & Roadmap
-
-### Recent Updates (v1.2.0)
-- Added dark mode support
-- Improved mobile responsiveness
-- Enhanced report generation
-- Added budget tracking feature
-
-### Coming Soon
-- **Recurring Transactions**: Set up automatic entries
-- **Investment Tracking**: Monitor stocks and crypto
-- **Goal Setting**: Save for specific targets
-- **Bill Reminders**: Never miss a payment
-
----
-
-<div align="center">
-
-**FinTrack** - Take control of your financial future
-
-[![GitHub stars](https://img.shields.io/github/stars/yourusername/fintrack?style=social)](https://github.com/yourusername/fintrack)
-[![GitHub forks](https://img.shields.io/github/forks/yourusername/fintrack?style=social)](https://github.com/yourusername/fintrack)
-
-*Built with ❤️ for better financial management*
-
-</div>
