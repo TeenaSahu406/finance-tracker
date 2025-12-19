@@ -6,50 +6,40 @@
     <title>FinTrack - Personal Finance Tracker</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     
     <style>
-        /* MAIN STYLES */
-        :root {
-            --primary: #4361ee;
-            --primary-dark: #3a56d4;
-            --success: #4cc9f0;
-            --danger: #f72585;
-            --dark: #212529;
-            --gray: #6c757d;
-            --light: #f8f9fa;
-        }
-        
+        /* RESET & BASE */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
         body {
-            background: linear-gradient(135deg, #f5f7ff 0%, #f0f2ff 100%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            color: var(--dark);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 1200px;
+            overflow: hidden;
+            min-height: 90vh;
         }
         
         /* HEADER */
         .header {
-            background: white;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
-            padding: 15px 0;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-        
-        .nav {
+            background: #4361ee;
+            color: white;
+            padding: 25px 40px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -58,94 +48,147 @@
         .logo {
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-size: 24px;
+            gap: 15px;
+            font-size: 28px;
             font-weight: 700;
-            color: var(--primary);
-            text-decoration: none;
         }
         
         .logo i {
-            font-size: 28px;
+            font-size: 32px;
         }
         
-        /* LOGIN/SIGNUP PAGES */
-        .auth-container {
-            min-height: 100vh;
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            background: white;
+            color: #4361ee;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            font-weight: 700;
+            font-size: 20px;
         }
         
-        .auth-card {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 15px 50px rgba(0,0,0,0.12);
-            width: 100%;
-            max-width: 420px;
-            overflow: hidden;
-        }
-        
-        .auth-header {
-            background: linear-gradient(135deg, var(--primary) 0%, #3a0ca3 100%);
+        .logout-btn {
+            background: rgba(255, 255, 255, 0.2);
             color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .logout-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        /* NAVIGATION */
+        .nav {
+            display: flex;
+            background: #f8f9fa;
+            padding: 0 40px;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .nav-link {
+            padding: 20px 30px;
+            text-decoration: none;
+            color: #495057;
+            font-weight: 600;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .nav-link:hover {
+            color: #4361ee;
+            background: #e9ecef;
+        }
+        
+        .nav-link.active {
+            color: #4361ee;
+            border-bottom-color: #4361ee;
+            background: #e9ecef;
+        }
+        
+        /* MAIN CONTENT */
+        .main-content {
             padding: 40px;
+            min-height: 70vh;
+        }
+        
+        /* LOGIN PAGE */
+        .login-container {
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+        }
+        
+        .login-box {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            padding: 50px;
+            width: 100%;
+            max-width: 500px;
             text-align: center;
         }
         
-        .auth-title {
-            font-size: 28px;
-            font-weight: 800;
+        .login-title {
+            color: #4361ee;
+            font-size: 32px;
             margin-bottom: 10px;
         }
         
-        .auth-subtitle {
-            opacity: 0.9;
-            font-size: 16px;
-        }
-        
-        .auth-body {
-            padding: 40px;
+        .login-subtitle {
+            color: #6c757d;
+            margin-bottom: 40px;
         }
         
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
+            text-align: left;
         }
         
         .form-label {
             display: block;
             margin-bottom: 8px;
             font-weight: 600;
-            font-size: 15px;
+            color: #495057;
         }
         
         .form-control {
             width: 100%;
-            padding: 12px 15px;
+            padding: 15px;
             border: 2px solid #e9ecef;
-            border-radius: 8px;
-            font-size: 15px;
+            border-radius: 10px;
+            font-size: 16px;
             transition: all 0.3s;
         }
         
         .form-control:focus {
             outline: none;
-            border-color: var(--primary);
+            border-color: #4361ee;
             box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
         }
         
         .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            padding: 12px 28px;
-            background: linear-gradient(135deg, var(--primary) 0%, #3a0ca3 100%);
+            background: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%);
             color: white;
             border: none;
-            border-radius: 8px;
-            font-size: 15px;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 16px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
@@ -154,55 +197,40 @@
         
         .btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+            box-shadow: 0 10px 20px rgba(67, 97, 238, 0.3);
         }
         
-        .btn-outline {
-            background: transparent;
-            border: 2px solid var(--primary);
-            color: var(--primary);
+        .btn-secondary {
+            background: #6c757d;
         }
         
-        .btn-outline:hover {
-            background: var(--primary);
-            color: white;
+        .btn-secondary:hover {
+            background: #5a6268;
         }
         
-        .auth-footer {
-            padding: 25px 40px;
-            text-align: center;
-            border-top: 1px solid #e9ecef;
-            color: var(--gray);
-            font-size: 14px;
+        .auth-switch {
+            margin-top: 25px;
+            color: #6c757d;
         }
         
         .auth-link {
-            color: var(--primary);
+            color: #4361ee;
             font-weight: 600;
-            text-decoration: none;
             cursor: pointer;
-        }
-        
-        .auth-link:hover {
-            text-decoration: underline;
+            text-decoration: none;
         }
         
         /* DASHBOARD */
-        .dashboard-container {
-            padding: 40px 0;
-        }
-        
-        .welcome-banner {
-            background: linear-gradient(135deg, var(--primary) 0%, #3a0ca3 100%);
+        .welcome-section {
+            background: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%);
             color: white;
-            border-radius: 12px;
             padding: 40px;
+            border-radius: 15px;
             margin-bottom: 40px;
         }
         
         .welcome-title {
-            font-size: 32px;
-            font-weight: 800;
+            font-size: 36px;
             margin-bottom: 10px;
         }
         
@@ -212,18 +240,24 @@
             margin-bottom: 25px;
         }
         
+        .quick-actions {
+            display: flex;
+            gap: 15px;
+        }
+        
+        /* STATS */
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 25px;
             margin-bottom: 40px;
         }
         
         .stat-card {
             background: white;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-            padding: 25px;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
             display: flex;
             align-items: center;
             transition: all 0.3s;
@@ -231,47 +265,46 @@
         
         .stat-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 15px 50px rgba(0,0,0,0.12);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
         }
         
         .stat-icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 12px;
+            width: 70px;
+            height: 70px;
+            border-radius: 15px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-right: 20px;
-            font-size: 26px;
+            margin-right: 25px;
+            font-size: 30px;
         }
         
         .income-icon {
-            background: rgba(76, 201, 240, 0.15);
-            color: var(--success);
+            background: rgba(40, 167, 69, 0.15);
+            color: #28a745;
         }
         
         .expense-icon {
-            background: rgba(247, 37, 133, 0.15);
-            color: var(--danger);
+            background: rgba(220, 53, 69, 0.15);
+            color: #dc3545;
         }
         
         .balance-icon {
             background: rgba(67, 97, 238, 0.15);
-            color: var(--primary);
+            color: #4361ee;
         }
         
-        .stat-content h3 {
+        .stat-info h3 {
+            color: #6c757d;
             font-size: 14px;
-            color: var(--gray);
             text-transform: uppercase;
             letter-spacing: 1px;
             margin-bottom: 8px;
         }
         
         .stat-amount {
-            font-size: 32px;
+            font-size: 36px;
             font-weight: 800;
-            margin-bottom: 5px;
         }
         
         .income-amount {
@@ -279,11 +312,11 @@
         }
         
         .expense-amount {
-            color: var(--danger);
+            color: #dc3545;
         }
         
         .balance-amount {
-            color: var(--primary);
+            color: #4361ee;
         }
         
         /* CHARTS */
@@ -296,38 +329,38 @@
         
         .chart-container {
             background: white;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-            padding: 25px;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
         }
         
         .chart-title {
-            font-size: 20px;
+            font-size: 22px;
             font-weight: 700;
-            margin-bottom: 20px;
-            color: var(--dark);
+            margin-bottom: 25px;
+            color: #212529;
         }
         
         /* TRANSACTIONS */
         .transactions-section {
             background: white;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-            padding: 25px;
-            margin-bottom: 30px;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            margin-bottom: 40px;
         }
         
         .section-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
         
         .section-title {
-            font-size: 22px;
+            font-size: 24px;
             font-weight: 700;
-            color: var(--dark);
+            color: #212529;
         }
         
         table {
@@ -336,44 +369,75 @@
         }
         
         th {
-            padding: 18px 20px;
+            padding: 20px;
             text-align: left;
             font-weight: 700;
-            color: var(--dark);
+            color: #495057;
             border-bottom: 2px solid #e9ecef;
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            background: #f8f9fa;
         }
         
         td {
-            padding: 16px 20px;
+            padding: 18px 20px;
             border-bottom: 1px solid #e9ecef;
-            transition: all 0.3s;
         }
         
-        tbody tr:hover td {
-            background: rgba(67, 97, 238, 0.03);
+        tr:hover {
+            background: #f8f9fa;
         }
         
-        .badge {
-            display: inline-block;
-            padding: 6px 14px;
+        .type-badge {
+            padding: 6px 15px;
             border-radius: 20px;
             font-size: 13px;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
         
-        .badge-income {
+        .income-badge {
             background: rgba(40, 167, 69, 0.15);
             color: #28a745;
         }
         
-        .badge-expense {
-            background: rgba(247, 37, 133, 0.15);
-            color: var(--danger);
+        .expense-badge {
+            background: rgba(220, 53, 69, 0.15);
+            color: #dc3545;
+        }
+        
+        .actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .action-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: none;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        
+        .edit-btn {
+            background: rgba(255, 193, 7, 0.15);
+            color: #ffc107;
+        }
+        
+        .edit-btn:hover {
+            background: rgba(255, 193, 7, 0.25);
+        }
+        
+        .delete-btn {
+            background: rgba(220, 53, 69, 0.15);
+            color: #dc3545;
+        }
+        
+        .delete-btn:hover {
+            background: rgba(220, 53, 69, 0.25);
         }
         
         /* MODAL */
@@ -383,31 +447,26 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0,0,0,0.5);
-            display: none;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 2000;
+            z-index: 1000;
             padding: 20px;
-        }
-        
-        .modal-overlay.active {
-            display: flex;
         }
         
         .modal {
             background: white;
-            border-radius: 12px;
-            box-shadow: 0 15px 50px rgba(0,0,0,0.12);
+            border-radius: 15px;
             width: 100%;
             max-width: 500px;
-            animation: slideUp 0.3s ease;
+            animation: modalSlide 0.3s ease;
         }
         
-        @keyframes slideUp {
+        @keyframes modalSlide {
             from {
                 opacity: 0;
-                transform: translateY(30px);
+                transform: translateY(-30px);
             }
             to {
                 opacity: 1;
@@ -424,19 +483,19 @@
         }
         
         .modal-title {
-            font-size: 22px;
+            font-size: 24px;
             font-weight: 700;
-            color: var(--dark);
+            color: #212529;
         }
         
         .modal-close {
             background: none;
             border: none;
             font-size: 24px;
+            color: #6c757d;
             cursor: pointer;
-            color: var(--gray);
-            width: 36px;
-            height: 36px;
+            width: 40px;
+            height: 40px;
             border-radius: 8px;
             display: flex;
             align-items: center;
@@ -445,7 +504,6 @@
         
         .modal-close:hover {
             background: #e9ecef;
-            color: var(--dark);
         }
         
         .modal-body {
@@ -460,650 +518,706 @@
             gap: 15px;
         }
         
-        /* TOAST */
-        .toast-container {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            z-index: 3000;
-        }
-        
-        .toast {
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 15px 50px rgba(0,0,0,0.12);
-            padding: 18px 24px;
-            margin-top: 15px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            min-width: 300px;
-            transform: translateX(100%);
-            opacity: 0;
-            transition: all 0.3s;
-            border-left: 4px solid #28a745;
-        }
-        
-        .toast.show {
-            transform: translateX(0);
-            opacity: 1;
-        }
-        
-        .toast.error {
-            border-left-color: var(--danger);
-        }
-        
         /* UTILITY */
         .hidden {
             display: none !important;
         }
         
-        .text-center {
-            text-align: center;
+        .text-success {
+            color: #28a745;
         }
         
-        .mt-20 {
-            margin-top: 20px;
+        .text-danger {
+            color: #dc3545;
         }
         
-        .mt-30 {
-            margin-top: 30px;
-        }
-        
-        .mb-20 {
-            margin-bottom: 20px;
-        }
-        
-        /* RESPONSIVE */
-        @media (max-width: 768px) {
-            .charts-section {
-                grid-template-columns: 1fr;
-            }
-            
-            .welcome-title {
-                font-size: 24px;
-            }
-            
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
+        .mb-4 {
+            margin-bottom: 25px;
         }
         
         /* EMPTY STATE */
         .empty-state {
             text-align: center;
-            padding: 60px 20px;
+            padding: 60px 40px;
         }
         
         .empty-icon {
-            width: 80px;
-            height: 80px;
-            background: #e9ecef;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 25px;
-            font-size: 32px;
-            color: var(--gray);
+            font-size: 60px;
+            color: #6c757d;
+            margin-bottom: 20px;
         }
         
         .empty-title {
-            font-size: 22px;
+            font-size: 24px;
             font-weight: 700;
             margin-bottom: 10px;
-            color: var(--dark);
+            color: #212529;
         }
         
         .empty-text {
-            color: var(--gray);
+            color: #6c757d;
             margin-bottom: 30px;
-            max-width: 400px;
-            margin-left: auto;
-            margin-right: auto;
+        }
+        
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .container {
+                min-height: auto;
+            }
+            
+            .header {
+                padding: 20px;
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .nav {
+                padding: 0;
+                flex-wrap: wrap;
+            }
+            
+            .nav-link {
+                padding: 15px;
+                flex: 1;
+                text-align: center;
+                min-width: 120px;
+            }
+            
+            .main-content {
+                padding: 20px;
+            }
+            
+            .charts-section {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .welcome-title {
+                font-size: 28px;
+            }
+            
+            .quick-actions {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- HEADER -->
-    <header class="header hidden" id="mainHeader">
-        <div class="container">
-            <nav class="nav">
-                <a href="#" class="logo" onclick="showDashboard()">
-                    <i class="fas fa-chart-line"></i>
-                    FinTrack
-                </a>
-                <div style="display: flex; gap: 30px;">
-                    <a href="#" onclick="showDashboard()" style="text-decoration: none; color: var(--dark); font-weight: 600;">Dashboard</a>
-                    <a href="#" onclick="showTransactions()" style="text-decoration: none; color: var(--dark); font-weight: 600;">Transactions</a>
-                    <a href="#" onclick="showReports()" style="text-decoration: none; color: var(--dark); font-weight: 600;">Reports</a>
-                    <a href="#" onclick="showProfile()" style="text-decoration: none; color: var(--dark); font-weight: 600;">Profile</a>
-                </div>
-                <button class="btn btn-outline" onclick="logout()" style="padding: 8px 16px;">
-                    <i class="fas fa-sign-out-alt"></i> Logout
-                </button>
-            </nav>
-        </div>
-    </header>
-
-    <!-- AUTH PAGES -->
-    <div id="authContainer">
+    <div class="container">
         <!-- LOGIN PAGE -->
-        <div class="auth-container" id="loginPage">
-            <div class="auth-card">
-                <div class="auth-header">
-                    <h1 class="auth-title">Welcome to FinTrack</h1>
-                    <p class="auth-subtitle">Sign in to manage your finances</p>
-                </div>
+        <div id="loginPage" class="login-container">
+            <div class="login-box">
+                <h1 class="login-title">FinTrack</h1>
+                <p class="login-subtitle">Track Your Personal Finances</p>
                 
-                <div class="auth-body">
-                    <form id="loginForm">
-                        <div class="form-group">
-                            <label for="loginEmail" class="form-label">Email Address</label>
-                            <input type="email" id="loginEmail" class="form-control" placeholder="Enter your email" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="loginPassword" class="form-label">Password</label>
-                            <input type="password" id="loginPassword" class="form-control" placeholder="Enter your password" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <button type="submit" class="btn">
-                                <i class="fas fa-sign-in-alt"></i> Sign In
-                            </button>
-                        </div>
-                    </form>
-                </div>
-                
-                <div class="auth-footer">
-                    <p>Don't have an account? <a class="auth-link" onclick="showSignup()">Sign up here</a></p>
-                </div>
-            </div>
-        </div>
-
-        <!-- SIGNUP PAGE -->
-        <div class="auth-container hidden" id="signupPage">
-            <div class="auth-card">
-                <div class="auth-header">
-                    <h1 class="auth-title">Create Account</h1>
-                    <p class="auth-subtitle">Join FinTrack today</p>
-                </div>
-                
-                <div class="auth-body">
-                    <form id="signupForm">
-                        <div class="form-group">
-                            <label for="signupName" class="form-label">Full Name</label>
-                            <input type="text" id="signupName" class="form-control" placeholder="Enter your full name" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="signupEmail" class="form-label">Email Address</label>
-                            <input type="email" id="signupEmail" class="form-control" placeholder="Enter your email" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="signupPassword" class="form-label">Password</label>
-                            <input type="password" id="signupPassword" class="form-control" placeholder="Create a password" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="confirmPassword" class="form-label">Confirm Password</label>
-                            <input type="password" id="confirmPassword" class="form-control" placeholder="Confirm your password" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <button type="submit" class="btn">
-                                <i class="fas fa-user-plus"></i> Create Account
-                            </button>
-                        </div>
-                    </form>
-                </div>
-                
-                <div class="auth-footer">
-                    <p>Already have an account? <a class="auth-link" onclick="showLogin()">Sign in here</a></p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- DASHBOARD -->
-    <div class="container dashboard-container hidden" id="dashboardPage">
-        <!-- Welcome Banner -->
-        <div class="welcome-banner">
-            <h1 class="welcome-title">Welcome back, <span id="userName">User</span>!</h1>
-            <p class="welcome-subtitle">Here's your financial overview</p>
-            <button class="btn" onclick="showAddTransactionModal()">
-                <i class="fas fa-plus"></i> Add Transaction
-            </button>
-        </div>
-        
-        <!-- Stats Cards -->
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-icon income-icon">
-                    <i class="fas fa-money-bill-wave"></i>
-                </div>
-                <div class="stat-content">
-                    <h3>Total Income</h3>
-                    <div class="stat-amount income-amount" id="totalIncome">$0.00</div>
-                </div>
-            </div>
-            
-            <div class="stat-card">
-                <div class="stat-icon expense-icon">
-                    <i class="fas fa-shopping-cart"></i>
-                </div>
-                <div class="stat-content">
-                    <h3>Total Expenses</h3>
-                    <div class="stat-amount expense-amount" id="totalExpense">$0.00</div>
-                </div>
-            </div>
-            
-            <div class="stat-card">
-                <div class="stat-icon balance-icon">
-                    <i class="fas fa-wallet"></i>
-                </div>
-                <div class="stat-content">
-                    <h3>Current Balance</h3>
-                    <div class="stat-amount balance-amount" id="currentBalance">$0.00</div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Charts Section -->
-        <div class="charts-section">
-            <div class="chart-container">
-                <h3 class="chart-title">Income vs Expenses</h3>
-                <canvas id="incomeExpenseChart"></canvas>
-            </div>
-            
-            <div class="chart-container">
-                <h3 class="chart-title">Spending by Category</h3>
-                <canvas id="categoryChart"></canvas>
-            </div>
-        </div>
-        
-        <!-- Recent Transactions -->
-        <div class="transactions-section">
-            <div class="section-header">
-                <h2 class="section-title">Recent Transactions</h2>
-                <button class="btn btn-outline" onclick="showTransactions()">
-                    View All
-                </button>
-            </div>
-            <div style="overflow-x: auto;">
-                <table id="recentTransactions">
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Description</th>
-                            <th>Category</th>
-                            <th>Type</th>
-                            <th>Amount</th>
-                        </tr>
-                    </thead>
-                    <tbody id="recentTransactionsBody">
-                        <!-- Transactions will be loaded here -->
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-
-    <!-- TRANSACTIONS PAGE -->
-    <div class="container dashboard-container hidden" id="transactionsPage">
-        <div class="section-header mb-20">
-            <h2 class="section-title">Transaction History</h2>
-            <button class="btn" onclick="showAddTransactionModal()">
-                <i class="fas fa-plus"></i> Add Transaction
-            </button>
-        </div>
-        
-        <div class="transactions-section">
-            <div style="overflow-x: auto;">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Description</th>
-                            <th>Category</th>
-                            <th>Type</th>
-                            <th>Amount</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="allTransactionsBody">
-                        <!-- All transactions will be loaded here -->
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-
-    <!-- REPORTS PAGE -->
-    <div class="container dashboard-container hidden" id="reportsPage">
-        <div class="transactions-section">
-            <h2 class="section-title">Financial Reports</h2>
-            <p class="mt-20 mb-20">Generate detailed financial reports for any period.</p>
-            
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 30px;">
-                <div style="background: #f8f9fa; padding: 25px; border-radius: 12px;">
-                    <h3 style="margin-bottom: 15px;">Monthly Summary</h3>
-                    <p style="color: var(--gray); margin-bottom: 20px;">Complete overview of income, expenses, and savings</p>
-                    <button class="btn" onclick="generateReport('monthly')">
-                        <i class="fas fa-file-pdf"></i> Generate PDF
+                <div id="loginForm">
+                    <div class="form-group">
+                        <label class="form-label">Email Address</label>
+                        <input type="email" id="email" class="form-control" placeholder="Enter your email" value="user@example.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Password</label>
+                        <input type="password" id="password" class="form-control" placeholder="Enter your password" value="password123">
+                    </div>
+                    
+                    <button class="btn" onclick="login()">
+                        <i class="fas fa-sign-in-alt"></i> Sign In
                     </button>
-                </div>
-                
-                <div style="background: #f8f9fa; padding: 25px; border-radius: 12px;">
-                    <h3 style="margin-bottom: 15px;">Category Report</h3>
-                    <p style="color: var(--gray); margin-bottom: 20px;">Detailed breakdown by spending categories</p>
-                    <button class="btn" onclick="generateReport('category')">
-                        <i class="fas fa-file-excel"></i> Generate Excel
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- PROFILE PAGE -->
-    <div class="container dashboard-container hidden" id="profilePage">
-        <div class="transactions-section">
-            <h2 class="section-title">User Profile</h2>
-            
-            <div style="display: flex; gap: 30px; align-items: center; margin: 30px 0;">
-                <div style="width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, var(--primary) 0%, #3a0ca3 100%); color: white; display: flex; align-items: center; justify-content: center; font-size: 32px; font-weight: 700;" id="profileAvatar">
-                    U
-                </div>
-                <div>
-                    <h3 id="profileName">User Name</h3>
-                    <p id="profileEmail" style="color: var(--gray);">user@example.com</p>
-                </div>
-            </div>
-            
-            <div style="margin-top: 30px;">
-                <h3 style="margin-bottom: 20px;">Account Settings</h3>
-                <div class="form-group">
-                    <label class="form-label">Email Notifications</label>
-                    <div style="display: flex; align-items: center; gap: 10px;">
-                        <input type="checkbox" id="emailNotifications" checked>
-                        <span>Receive email alerts</span>
+                    
+                    <div class="auth-switch">
+                        <p>Don't have an account? <a class="auth-link" onclick="showSignup()">Sign up here</a></p>
                     </div>
                 </div>
                 
-                <div class="form-group">
-                    <label class="form-label">Currency</label>
-                    <select class="form-control" id="currency">
-                        <option value="USD">US Dollar ($)</option>
-                        <option value="EUR">Euro (€)</option>
-                        <option value="GBP">British Pound (£)</option>
-                    </select>
+                <div id="signupForm" class="hidden">
+                    <div class="form-group">
+                        <label class="form-label">Full Name</label>
+                        <input type="text" id="name" class="form-control" placeholder="Enter your full name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Email Address</label>
+                        <input type="email" id="signupEmail" class="form-control" placeholder="Enter your email">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Password</label>
+                        <input type="password" id="signupPassword" class="form-control" placeholder="Create a password">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Confirm Password</label>
+                        <input type="password" id="confirmPassword" class="form-control" placeholder="Confirm your password">
+                    </div>
+                    
+                    <button class="btn" onclick="signup()">
+                        <i class="fas fa-user-plus"></i> Create Account
+                    </button>
+                    
+                    <div class="auth-switch">
+                        <p>Already have an account? <a class="auth-link" onclick="showLogin()">Sign in here</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MAIN APP (Hidden Initially) -->
+        <div id="appContainer" class="hidden">
+            <!-- Header -->
+            <div class="header">
+                <div class="logo">
+                    <i class="fas fa-chart-line"></i>
+                    <span>FinTrack</span>
                 </div>
                 
-                <button class="btn mt-20">
-                    <i class="fas fa-save"></i> Save Settings
-                </button>
+                <div class="user-info">
+                    <div class="user-avatar" id="userAvatar">U</div>
+                    <div>
+                        <div id="userName">User</div>
+                        <div id="userEmail" style="font-size: 14px; opacity: 0.8;">user@example.com</div>
+                    </div>
+                    <button class="logout-btn" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Navigation -->
+            <div class="nav">
+                <a href="#" class="nav-link active" onclick="showPage('dashboard')">
+                    <i class="fas fa-tachometer-alt"></i> Dashboard
+                </a>
+                <a href="#" class="nav-link" onclick="showPage('transactions')">
+                    <i class="fas fa-exchange-alt"></i> Transactions
+                </a>
+                <a href="#" class="nav-link" onclick="showPage('reports')">
+                    <i class="fas fa-chart-pie"></i> Reports
+                </a>
+                <a href="#" class="nav-link" onclick="showPage('profile')">
+                    <i class="fas fa-user"></i> Profile
+                </a>
+            </div>
+            
+            <!-- Main Content -->
+            <div class="main-content">
+                <!-- Dashboard Page -->
+                <div id="dashboardPage">
+                    <div class="welcome-section">
+                        <h1 class="welcome-title">Welcome back, <span id="welcomeName">User</span>!</h1>
+                        <p class="welcome-subtitle">Track your income and expenses in one place</p>
+                        <div class="quick-actions">
+                            <button class="btn" onclick="openAddTransactionModal()">
+                                <i class="fas fa-plus"></i> Add Transaction
+                            </button>
+                            <button class="btn btn-secondary" onclick="showPage('transactions')">
+                                <i class="fas fa-history"></i> View History
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Stats Cards -->
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon income-icon">
+                                <i class="fas fa-money-bill-wave"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>Total Income</h3>
+                                <div class="stat-amount income-amount" id="totalIncome">₹0</div>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-icon expense-icon">
+                                <i class="fas fa-shopping-cart"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>Total Expenses</h3>
+                                <div class="stat-amount expense-amount" id="totalExpense">₹0</div>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-icon balance-icon">
+                                <i class="fas fa-wallet"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>Current Balance</h3>
+                                <div class="stat-amount balance-amount" id="currentBalance">₹0</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Charts -->
+                    <div class="charts-section">
+                        <div class="chart-container">
+                            <h3 class="chart-title">Income vs Expenses</h3>
+                            <canvas id="incomeExpenseChart" height="250"></canvas>
+                        </div>
+                        
+                        <div class="chart-container">
+                            <h3 class="chart-title">Spending by Category</h3>
+                            <canvas id="categoryChart" height="250"></canvas>
+                        </div>
+                    </div>
+                    
+                    <!-- Recent Transactions -->
+                    <div class="transactions-section">
+                        <div class="section-header">
+                            <h2 class="section-title">Recent Transactions</h2>
+                            <button class="btn btn-secondary" onclick="showPage('transactions')">
+                                View All
+                            </button>
+                        </div>
+                        
+                        <div id="recentTransactionsTable">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Description</th>
+                                        <th>Category</th>
+                                        <th>Type</th>
+                                        <th>Amount</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="recentTransactionsBody">
+                                    <!-- Will be populated by JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Transactions Page -->
+                <div id="transactionsPage" class="hidden">
+                    <div class="section-header">
+                        <h2 class="section-title">All Transactions</h2>
+                        <div>
+                            <button class="btn" onclick="openAddTransactionModal()">
+                                <i class="fas fa-plus"></i> Add Transaction
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="transactions-section">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Description</th>
+                                    <th>Category</th>
+                                    <th>Type</th>
+                                    <th>Amount</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="allTransactionsBody">
+                                <!-- Will be populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <!-- Reports Page -->
+                <div id="reportsPage" class="hidden">
+                    <div class="transactions-section">
+                        <h2 class="section-title">Financial Reports</h2>
+                        <p class="mb-4">Generate detailed reports of your financial activities</p>
+                        
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px;">
+                            <div style="background: #f8f9fa; padding: 30px; border-radius: 15px;">
+                                <h3 style="margin-bottom: 15px;">Monthly Summary</h3>
+                                <p style="color: #6c757d; margin-bottom: 20px;">Complete overview of your monthly finances</p>
+                                <button class="btn" onclick="generateReport('monthly')">
+                                    <i class="fas fa-file-pdf"></i> Generate PDF
+                                </button>
+                            </div>
+                            
+                            <div style="background: #f8f9fa; padding: 30px; border-radius: 15px;">
+                                <h3 style="margin-bottom: 15px;">Category Breakdown</h3>
+                                <p style="color: #6c757d; margin-bottom: 20px;">Detailed spending by categories</p>
+                                <button class="btn" onclick="generateReport('category')">
+                                    <i class="fas fa-file-excel"></i> Generate Excel
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Profile Page -->
+                <div id="profilePage" class="hidden">
+                    <div class="transactions-section">
+                        <h2 class="section-title">Your Profile</h2>
+                        
+                        <div style="display: flex; gap: 30px; align-items: center; margin: 30px 0;">
+                            <div class="user-avatar" style="width: 100px; height: 100px; font-size: 40px;" id="profileAvatar">U</div>
+                            <div>
+                                <h3 id="profileName">User Name</h3>
+                                <p id="profileEmail" style="color: #6c757d;">user@example.com</p>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Default Currency</label>
+                            <select class="form-control" id="currency">
+                                <option value="INR">Indian Rupee (₹)</option>
+                                <option value="USD">US Dollar ($)</option>
+                                <option value="EUR">Euro (€)</option>
+                            </select>
+                        </div>
+                        
+                        <button class="btn mt-4">
+                            <i class="fas fa-save"></i> Save Profile
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- ADD TRANSACTION MODAL -->
-    <div class="modal-overlay hidden" id="transactionModal">
+    <!-- Add Transaction Modal -->
+    <div id="transactionModal" class="modal-overlay hidden">
         <div class="modal">
             <div class="modal-header">
-                <h3 class="modal-title">Add Transaction</h3>
+                <h3 class="modal-title">Add New Transaction</h3>
                 <button class="modal-close" onclick="closeTransactionModal()">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
             
             <div class="modal-body">
-                <form id="transactionForm">
-                    <div class="form-group">
-                        <label for="transactionType" class="form-label">Type</label>
-                        <select id="transactionType" class="form-control" required>
-                            <option value="">Select Type</option>
-                            <option value="income">Income</option>
-                            <option value="expense">Expense</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="transactionCategory" class="form-label">Category</label>
-                        <select id="transactionCategory" class="form-control" required>
-                            <option value="">Select Category</option>
+                <div class="form-group">
+                    <label class="form-label">Transaction Type</label>
+                    <select class="form-control" id="transType">
+                        <option value="">Select Type</option>
+                        <option value="income">Income</option>
+                        <option value="expense">Expense</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Category</label>
+                    <select class="form-control" id="transCategory">
+                        <option value="">Select Category</option>
+                        <optgroup label="Income">
                             <option value="Salary">Salary</option>
+                            <option value="Freelance">Freelance</option>
+                            <option value="Investment">Investment</option>
+                            <option value="Gift">Gift</option>
+                        </optgroup>
+                        <optgroup label="Expenses">
                             <option value="Food">Food & Dining</option>
                             <option value="Shopping">Shopping</option>
                             <option value="Transport">Transportation</option>
-                            <option value="Bills">Bills & Utilities</option>
                             <option value="Entertainment">Entertainment</option>
+                            <option value="Bills">Bills & Utilities</option>
+                            <option value="Healthcare">Healthcare</option>
+                            <option value="Education">Education</option>
                             <option value="Other">Other</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="transactionDescription" class="form-label">Description</label>
-                        <input type="text" id="transactionDescription" class="form-control" placeholder="Enter description" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="transactionAmount" class="form-label">Amount</label>
-                        <input type="number" id="transactionAmount" class="form-control" placeholder="0.00" min="0" step="0.01" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="transactionDate" class="form-label">Date</label>
-                        <input type="date" id="transactionDate" class="form-control" required>
-                    </div>
-                </form>
+                        </optgroup>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Description</label>
+                    <input type="text" class="form-control" id="transDescription" placeholder="Enter description">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Amount (₹)</label>
+                    <input type="number" class="form-control" id="transAmount" placeholder="0.00" min="0" step="0.01">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Date</label>
+                    <input type="date" class="form-control" id="transDate">
+                </div>
             </div>
             
             <div class="modal-footer">
-                <button class="btn btn-outline" onclick="closeTransactionModal()">Cancel</button>
+                <button class="btn btn-secondary" onclick="closeTransactionModal()">Cancel</button>
                 <button class="btn" onclick="saveTransaction()">Save Transaction</button>
             </div>
         </div>
     </div>
 
-    <!-- TOAST CONTAINER -->
-    <div class="toast-container" id="toastContainer"></div>
-
     <script>
-        // APP STATE
+        // ==================== APP STATE ====================
         let currentUser = null;
         let transactions = [];
-        let charts = {};
+        let charts = {
+            incomeExpense: null,
+            category: null
+        };
 
-        // INITIALIZE APP
+        // ==================== INITIALIZE APP ====================
         document.addEventListener('DOMContentLoaded', function() {
-            // Check if user is already logged in
+            // Check if user is logged in
             const savedUser = localStorage.getItem('fintrack_user');
             if (savedUser) {
                 currentUser = JSON.parse(savedUser);
-                showDashboard();
+                showApp();
             } else {
                 showLogin();
             }
             
-            // Set current date in transaction form
-            document.getElementById('transactionDate').value = new Date().toISOString().split('T')[0];
-            
-            // Setup event listeners
-            setupEventListeners();
+            // Set today's date as default
+            document.getElementById('transDate').value = new Date().toISOString().split('T')[0];
         });
 
-        // EVENT LISTENERS
-        function setupEventListeners() {
-            // Login form
-            document.getElementById('loginForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-                const email = document.getElementById('loginEmail').value;
-                const password = document.getElementById('loginPassword').value;
-                loginUser(email, password);
-            });
+        // ==================== AUTH FUNCTIONS ====================
+        function login() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
             
-            // Signup form
-            document.getElementById('signupForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-                const name = document.getElementById('signupName').value;
-                const email = document.getElementById('signupEmail').value;
-                const password = document.getElementById('signupPassword').value;
-                const confirmPassword = document.getElementById('confirmPassword').value;
-                
-                if (password !== confirmPassword) {
-                    showToast('Passwords do not match', 'error');
-                    return;
-                }
-                
-                registerUser(name, email, password);
-            });
+            if (!email || !password) {
+                alert('Please enter email and password');
+                return;
+            }
+            
+            // Create user object
+            currentUser = {
+                name: email.split('@')[0],
+                email: email,
+                avatar: email.charAt(0).toUpperCase(),
+                currency: 'INR'
+            };
+            
+            localStorage.setItem('fintrack_user', JSON.stringify(currentUser));
+            
+            // Load user's transactions
+            loadTransactions();
+            
+            showApp();
         }
 
-        // AUTH FUNCTIONS
-        function loginUser(email, password) {
-            // Simulate API call
-            setTimeout(() => {
-                // For demo, accept any email/password
-                currentUser = {
-                    name: email.split('@')[0],
-                    email: email,
-                    avatar: email.charAt(0).toUpperCase()
-                };
-                
-                localStorage.setItem('fintrack_user', JSON.stringify(currentUser));
-                
-                // Load user's transactions (NO DEMO DATA)
-                loadUserTransactions();
-                
-                showToast('Login successful!', 'success');
-                showDashboard();
-            }, 500);
+        function showSignup() {
+            document.getElementById('loginForm').classList.add('hidden');
+            document.getElementById('signupForm').classList.remove('hidden');
         }
 
-        function registerUser(name, email, password) {
-            // Simulate API call
-            setTimeout(() => {
-                currentUser = {
-                    name: name,
-                    email: email,
-                    avatar: name.split(' ').map(n => n[0]).join('').toUpperCase()
-                };
-                
-                localStorage.setItem('fintrack_user', JSON.stringify(currentUser));
-                
-                // Start with empty transactions for new user
-                transactions = [];
-                saveTransactions();
-                
-                showToast('Registration successful!', 'success');
-                showDashboard();
-            }, 500);
+        function showLogin() {
+            document.getElementById('signupForm').classList.add('hidden');
+            document.getElementById('loginForm').classList.remove('hidden');
+        }
+
+        function signup() {
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('signupEmail').value;
+            const password = document.getElementById('signupPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            if (!name || !email || !password || !confirmPassword) {
+                alert('Please fill all fields');
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                alert('Passwords do not match');
+                return;
+            }
+            
+            // Create user object
+            currentUser = {
+                name: name,
+                email: email,
+                avatar: name.charAt(0).toUpperCase(),
+                currency: 'INR'
+            };
+            
+            localStorage.setItem('fintrack_user', JSON.stringify(currentUser));
+            
+            // Start with empty transactions
+            transactions = [];
+            saveTransactions();
+            
+            showApp();
         }
 
         function logout() {
             currentUser = null;
             localStorage.removeItem('fintrack_user');
             showLogin();
-            showToast('Logged out successfully', 'success');
         }
 
-        // TRANSACTION FUNCTIONS
-        function loadUserTransactions() {
-            const userKey = `fintrack_transactions_${currentUser.email}`;
-            const saved = localStorage.getItem(userKey);
-            if (saved) {
-                transactions = JSON.parse(saved);
-            } else {
-                transactions = []; // EMPTY - NO DEMO DATA
-                saveTransactions();
-            }
-        }
-
-        function saveTransactions() {
-            const userKey = `fintrack_transactions_${currentUser.email}`;
-            localStorage.setItem(userKey, JSON.stringify(transactions));
-        }
-
-        // PAGE NAVIGATION
-        function showLogin() {
-            hideAllPages();
-            document.getElementById('loginPage').classList.remove('hidden');
-            document.getElementById('authContainer').classList.remove('hidden');
-            document.getElementById('mainHeader').classList.add('hidden');
-        }
-
-        function showSignup() {
-            hideAllPages();
-            document.getElementById('signupPage').classList.remove('hidden');
-            document.getElementById('authContainer').classList.remove('hidden');
-            document.getElementById('mainHeader').classList.add('hidden');
-        }
-
-        function showDashboard() {
-            hideAllPages();
-            document.getElementById('dashboardPage').classList.remove('hidden');
-            document.getElementById('mainHeader').classList.remove('hidden');
-            document.getElementById('authContainer').classList.add('hidden');
-            
-            updateDashboard();
-        }
-
-        function showTransactions() {
-            hideAllPages();
-            document.getElementById('transactionsPage').classList.remove('hidden');
-            document.getElementById('mainHeader').classList.remove('hidden');
-            document.getElementById('authContainer').classList.add('hidden');
-            
-            updateTransactionsTable();
-        }
-
-        function showReports() {
-            hideAllPages();
-            document.getElementById('reportsPage').classList.remove('hidden');
-            document.getElementById('mainHeader').classList.remove('hidden');
-            document.getElementById('authContainer').classList.add('hidden');
-        }
-
-        function showProfile() {
-            hideAllPages();
-            document.getElementById('profilePage').classList.remove('hidden');
-            document.getElementById('mainHeader').classList.remove('hidden');
-            document.getElementById('authContainer').classList.add('hidden');
-            
-            updateProfile();
-        }
-
-        function hideAllPages() {
-            const pages = ['loginPage', 'signupPage', 'dashboardPage', 'transactionsPage', 'reportsPage', 'profilePage'];
-            pages.forEach(page => {
-                const el = document.getElementById(page);
-                if (el) el.classList.add('hidden');
-            });
-        }
-
-        // DASHBOARD FUNCTIONS
-        function updateDashboard() {
-            if (!currentUser) return;
+        function showApp() {
+            document.getElementById('loginPage').classList.add('hidden');
+            document.getElementById('appContainer').classList.remove('hidden');
             
             // Update user info
             document.getElementById('userName').textContent = currentUser.name;
+            document.getElementById('userEmail').textContent = currentUser.email;
+            document.getElementById('userAvatar').textContent = currentUser.avatar;
+            document.getElementById('welcomeName').textContent = currentUser.name;
+            document.getElementById('profileName').textContent = currentUser.name;
+            document.getElementById('profileEmail').textContent = currentUser.email;
+            document.getElementById('profileAvatar').textContent = currentUser.avatar;
             
-            // Load user's transactions
-            loadUserTransactions();
-            
-            // Update stats
-            updateStats();
-            
-            // Update charts
-            updateCharts();
-            
-            // Update recent transactions
-            updateRecentTransactions();
+            // Load and display data
+            loadTransactions();
+            updateDashboard();
         }
 
-        function updateStats() {
+        // ==================== TRANSACTION FUNCTIONS ====================
+        function loadTransactions() {
+            if (!currentUser) return;
+            
+            const key = `fintrack_transactions_${currentUser.email}`;
+            const saved = localStorage.getItem(key);
+            
+            if (saved) {
+                transactions = JSON.parse(saved);
+            } else {
+                transactions = [];
+                // Add sample transaction for new users
+                if (transactions.length === 0) {
+                    transactions.push({
+                        id: 'sample_1',
+                        type: 'expense',
+                        category: 'Food',
+                        description: 'Lunch at restaurant',
+                        amount: 350,
+                        date: new Date().toISOString().split('T')[0]
+                    });
+                    saveTransactions();
+                }
+            }
+            
+            // Sort by date (newest first)
+            transactions.sort((a, b) => new Date(b.date) - new Date(a.date));
+        }
+
+        function saveTransactions() {
+            if (!currentUser) return;
+            
+            const key = `fintrack_transactions_${currentUser.email}`;
+            localStorage.setItem(key, JSON.stringify(transactions));
+        }
+
+        function openAddTransactionModal() {
+            document.getElementById('transactionModal').classList.remove('hidden');
+            // Reset form
+            document.getElementById('transType').value = '';
+            document.getElementById('transCategory').value = '';
+            document.getElementById('transDescription').value = '';
+            document.getElementById('transAmount').value = '';
+            document.getElementById('transDate').value = new Date().toISOString().split('T')[0];
+        }
+
+        function closeTransactionModal() {
+            document.getElementById('transactionModal').classList.add('hidden');
+        }
+
+        function saveTransaction() {
+            const type = document.getElementById('transType').value;
+            const category = document.getElementById('transCategory').value;
+            const description = document.getElementById('transDescription').value;
+            const amount = parseFloat(document.getElementById('transAmount').value);
+            const date = document.getElementById('transDate').value;
+            
+            // Validation
+            if (!type) {
+                alert('Please select transaction type');
+                return;
+            }
+            
+            if (!category) {
+                alert('Please select category');
+                return;
+            }
+            
+            if (!description.trim()) {
+                alert('Please enter description');
+                return;
+            }
+            
+            if (!amount || amount <= 0) {
+                alert('Please enter valid amount');
+                return;
+            }
+            
+            if (!date) {
+                alert('Please select date');
+                return;
+            }
+            
+            // Create transaction object
+            const transaction = {
+                id: 'trans_' + Date.now(),
+                type: type,
+                category: category,
+                description: description,
+                amount: amount,
+                date: date
+            };
+            
+            // Add to beginning of array
+            transactions.unshift(transaction);
+            saveTransactions();
+            
+            // Close modal
+            closeTransactionModal();
+            
+            // Show success message
+            alert('Transaction added successfully!');
+            
+            // Update UI
+            updateDashboard();
+            updateTransactionsTable();
+        }
+
+        function deleteTransaction(id) {
+            if (!confirm('Are you sure you want to delete this transaction?')) {
+                return;
+            }
+            
+            transactions = transactions.filter(t => t.id !== id);
+            saveTransactions();
+            
+            // Update UI
+            updateDashboard();
+            updateTransactionsTable();
+        }
+
+        // ==================== PAGE NAVIGATION ====================
+        function showPage(page) {
+            // Hide all pages
+            document.getElementById('dashboardPage').classList.add('hidden');
+            document.getElementById('transactionsPage').classList.add('hidden');
+            document.getElementById('reportsPage').classList.add('hidden');
+            document.getElementById('profilePage').classList.add('hidden');
+            
+            // Remove active class from all nav links
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            // Show selected page
+            document.getElementById(page + 'Page').classList.remove('hidden');
+            
+            // Add active class to clicked nav link
+            event.target.classList.add('active');
+            
+            // Update page-specific content
+            if (page === 'dashboard') {
+                updateDashboard();
+            } else if (page === 'transactions') {
+                updateTransactionsTable();
+            }
+        }
+
+        // ==================== DASHBOARD FUNCTIONS ====================
+        function updateDashboard() {
+            if (!currentUser) return;
+            
+            // Calculate totals
             let totalIncome = 0;
             let totalExpense = 0;
             
@@ -1115,29 +1229,46 @@
                 }
             });
             
-            document.getElementById('totalIncome').textContent = '$' + totalIncome.toFixed(2);
-            document.getElementById('totalExpense').textContent = '$' + totalExpense.toFixed(2);
-            document.getElementById('currentBalance').textContent = '$' + (totalIncome - totalExpense).toFixed(2);
+            const balance = totalIncome - totalExpense;
+            
+            // Update stats
+            document.getElementById('totalIncome').textContent = '₹' + totalIncome.toFixed(2);
+            document.getElementById('totalExpense').textContent = '₹' + totalExpense.toFixed(2);
+            document.getElementById('currentBalance').textContent = '₹' + balance.toFixed(2);
+            
+            // Update charts
+            updateCharts();
+            
+            // Update recent transactions
+            updateRecentTransactions();
         }
 
         function updateCharts() {
+            // Calculate data for charts
+            let incomeTotal = 0;
+            let expenseTotal = 0;
+            const categoryData = {};
+            
+            transactions.forEach(t => {
+                if (t.type === 'income') {
+                    incomeTotal += t.amount;
+                } else {
+                    expenseTotal += t.amount;
+                    
+                    if (!categoryData[t.category]) {
+                        categoryData[t.category] = 0;
+                    }
+                    categoryData[t.category] += t.amount;
+                }
+            });
+            
             // Income vs Expense Chart
             const incomeExpenseCtx = document.getElementById('incomeExpenseChart').getContext('2d');
             
-            let incomeTotal = 0;
-            let expenseTotal = 0;
-            
-            transactions.forEach(t => {
-                if (t.type === 'income') incomeTotal += t.amount;
-                else expenseTotal += t.amount;
-            });
-            
-            // Destroy previous chart if exists
             if (charts.incomeExpense) {
                 charts.incomeExpense.destroy();
             }
             
-            // Only create chart if there is data
             if (incomeTotal > 0 || expenseTotal > 0) {
                 charts.incomeExpense = new Chart(incomeExpenseCtx, {
                     type: 'doughnut',
@@ -1145,7 +1276,7 @@
                         labels: ['Income', 'Expenses'],
                         datasets: [{
                             data: [incomeTotal, expenseTotal],
-                            backgroundColor: ['#28a745', '#f72585'],
+                            backgroundColor: ['#28a745', '#dc3545'],
                             borderWidth: 1
                         }]
                     },
@@ -1158,46 +1289,24 @@
                         }
                     }
                 });
-            } else {
-                // Show empty chart message
-                incomeExpenseCtx.clearRect(0, 0, incomeExpenseCtx.canvas.width, incomeExpenseCtx.canvas.height);
-                incomeExpenseCtx.font = '16px Arial';
-                incomeExpenseCtx.fillStyle = '#6c757d';
-                incomeExpenseCtx.textAlign = 'center';
-                incomeExpenseCtx.fillText('Add transactions to see charts', 
-                    incomeExpenseCtx.canvas.width / 2, 
-                    incomeExpenseCtx.canvas.height / 2);
             }
             
             // Category Chart
             const categoryCtx = document.getElementById('categoryChart').getContext('2d');
-            const categoryData = {};
-            
-            transactions.forEach(t => {
-                if (t.type === 'expense') {
-                    if (!categoryData[t.category]) {
-                        categoryData[t.category] = 0;
-                    }
-                    categoryData[t.category] += t.amount;
-                }
-            });
-            
             const categories = Object.keys(categoryData);
             const amounts = Object.values(categoryData);
             
-            // Destroy previous chart if exists
             if (charts.category) {
                 charts.category.destroy();
             }
             
-            // Only create chart if there is expense data
             if (categories.length > 0) {
                 charts.category = new Chart(categoryCtx, {
                     type: 'bar',
                     data: {
                         labels: categories,
                         datasets: [{
-                            label: 'Amount',
+                            label: 'Amount (₹)',
                             data: amounts,
                             backgroundColor: '#4361ee'
                         }]
@@ -1209,22 +1318,13 @@
                                 beginAtZero: true,
                                 ticks: {
                                     callback: function(value) {
-                                        return '$' + value;
+                                        return '₹' + value;
                                     }
                                 }
                             }
                         }
                     }
                 });
-            } else {
-                // Show empty chart message
-                categoryCtx.clearRect(0, 0, categoryCtx.canvas.width, categoryCtx.canvas.height);
-                categoryCtx.font = '16px Arial';
-                categoryCtx.fillStyle = '#6c757d';
-                categoryCtx.textAlign = 'center';
-                categoryCtx.fillText('Add expense transactions to see category chart', 
-                    categoryCtx.canvas.width / 2, 
-                    categoryCtx.canvas.height / 2);
             }
         }
 
@@ -1232,22 +1332,21 @@
             const tbody = document.getElementById('recentTransactionsBody');
             tbody.innerHTML = '';
             
-            // Show only recent 5 transactions
+            // Get recent 5 transactions
             const recent = transactions.slice(0, 5);
             
             if (recent.length === 0) {
-                // Show empty state
                 tbody.innerHTML = `
                     <tr>
-                        <td colspan="5">
+                        <td colspan="6" style="text-align: center; padding: 40px;">
                             <div class="empty-state">
                                 <div class="empty-icon">
                                     <i class="fas fa-exchange-alt"></i>
                                 </div>
                                 <h3 class="empty-title">No Transactions Yet</h3>
                                 <p class="empty-text">Add your first transaction to get started</p>
-                                <button class="btn" onclick="showAddTransactionModal()" style="width: auto;">
-                                    <i class="fas fa-plus"></i> Add First Transaction
+                                <button class="btn" onclick="openAddTransactionModal()">
+                                    <i class="fas fa-plus"></i> Add Transaction
                                 </button>
                             </div>
                         </td>
@@ -1259,12 +1358,23 @@
             recent.forEach(transaction => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
-                    <td>${new Date(transaction.date).toLocaleDateString()}</td>
+                    <td>${formatDate(transaction.date)}</td>
                     <td>${transaction.description}</td>
                     <td>${transaction.category}</td>
-                    <td><span class="badge ${transaction.type === 'income' ? 'badge-income' : 'badge-expense'}">${transaction.type}</span></td>
-                    <td style="font-weight: 600; color: ${transaction.type === 'income' ? '#28a745' : '#f72585'}">
-                        ${transaction.type === 'income' ? '+' : '-'}$${transaction.amount.toFixed(2)}
+                    <td>
+                        <span class="type-badge ${transaction.type === 'income' ? 'income-badge' : 'expense-badge'}">
+                            ${transaction.type}
+                        </span>
+                    </td>
+                    <td style="font-weight: 600; ${transaction.type === 'income' ? 'color: #28a745;' : 'color: #dc3545;'}">
+                        ${transaction.type === 'income' ? '+' : '-'}₹${transaction.amount.toFixed(2)}
+                    </td>
+                    <td>
+                        <div class="actions">
+                            <button class="action-btn delete-btn" onclick="deleteTransaction('${transaction.id}')">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
                     </td>
                 `;
                 tbody.appendChild(row);
@@ -1276,17 +1386,16 @@
             tbody.innerHTML = '';
             
             if (transactions.length === 0) {
-                // Show empty state
                 tbody.innerHTML = `
                     <tr>
-                        <td colspan="6">
+                        <td colspan="6" style="text-align: center; padding: 40px;">
                             <div class="empty-state">
                                 <div class="empty-icon">
                                     <i class="fas fa-exchange-alt"></i>
                                 </div>
                                 <h3 class="empty-title">No Transactions Found</h3>
                                 <p class="empty-text">Start by adding your first transaction</p>
-                                <button class="btn" onclick="showAddTransactionModal()" style="width: auto;">
+                                <button class="btn" onclick="openAddTransactionModal()">
                                     <i class="fas fa-plus"></i> Add Transaction
                                 </button>
                             </div>
@@ -1299,127 +1408,49 @@
             transactions.forEach(transaction => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
-                    <td>${new Date(transaction.date).toLocaleDateString()}</td>
+                    <td>${formatDate(transaction.date)}</td>
                     <td>${transaction.description}</td>
                     <td>${transaction.category}</td>
-                    <td><span class="badge ${transaction.type === 'income' ? 'badge-income' : 'badge-expense'}">${transaction.type}</span></td>
-                    <td style="font-weight: 600; color: ${transaction.type === 'income' ? '#28a745' : '#f72585'}">
-                        ${transaction.type === 'income' ? '+' : '-'}$${transaction.amount.toFixed(2)}
+                    <td>
+                        <span class="type-badge ${transaction.type === 'income' ? 'income-badge' : 'expense-badge'}">
+                            ${transaction.type}
+                        </span>
+                    </td>
+                    <td style="font-weight: 600; ${transaction.type === 'income' ? 'color: #28a745;' : 'color: #dc3545;'}">
+                        ${transaction.type === 'income' ? '+' : '-'}₹${transaction.amount.toFixed(2)}
                     </td>
                     <td>
-                        <button onclick="deleteTransaction('${transaction.id}')" style="background: none; border: none; color: #f72585; cursor: pointer;">
-                            <i class="fas fa-trash"></i>
-                        </button>
+                        <div class="actions">
+                            <button class="action-btn delete-btn" onclick="deleteTransaction('${transaction.id}')">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
                     </td>
                 `;
                 tbody.appendChild(row);
             });
         }
 
-        function updateProfile() {
-            if (!currentUser) return;
-            
-            document.getElementById('profileName').textContent = currentUser.name;
-            document.getElementById('profileEmail').textContent = currentUser.email;
-            document.getElementById('profileAvatar').textContent = currentUser.avatar;
+        // ==================== UTILITY FUNCTIONS ====================
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-IN', {
+                day: '2-digit',
+                month: 'short',
+                year: 'numeric'
+            });
         }
 
-        // TRANSACTION FUNCTIONS
-        function showAddTransactionModal() {
-            document.getElementById('transactionModal').classList.add('active');
-        }
-
-        function closeTransactionModal() {
-            document.getElementById('transactionModal').classList.remove('active');
-            document.getElementById('transactionForm').reset();
-        }
-
-        function saveTransaction() {
-            const type = document.getElementById('transactionType').value;
-            const category = document.getElementById('transactionCategory').value;
-            const description = document.getElementById('transactionDescription').value;
-            const amount = parseFloat(document.getElementById('transactionAmount').value);
-            const date = document.getElementById('transactionDate').value;
-            
-            if (!type || !category || !description || !amount || !date) {
-                showToast('Please fill all fields', 'error');
-                return;
-            }
-            
-            const newTransaction = {
-                id: 'trans_' + Date.now(),
-                type: type,
-                category: category,
-                description: description,
-                amount: amount,
-                date: date
-            };
-            
-            transactions.unshift(newTransaction);
-            saveTransactions();
-            
-            closeTransactionModal();
-            showToast('Transaction added successfully!', 'success');
-            
-            // Update UI based on current page
-            if (document.getElementById('dashboardPage').classList.contains('hidden') === false) {
-                updateDashboard();
-            } else if (document.getElementById('transactionsPage').classList.contains('hidden') === false) {
-                updateTransactionsTable();
-            }
-        }
-
-        function deleteTransaction(id) {
-            if (confirm('Are you sure you want to delete this transaction?')) {
-                transactions = transactions.filter(t => t.id !== id);
-                saveTransactions();
-                
-                showToast('Transaction deleted successfully!', 'success');
-                updateTransactionsTable();
-                updateDashboard();
-            }
-        }
-
-        // REPORT FUNCTIONS
         function generateReport(type) {
-            if (transactions.length === 0) {
-                showToast('No transactions to generate report', 'error');
-                return;
-            }
-            
-            showToast('Generating report...', 'success');
-            // Simulate report generation
-            setTimeout(() => {
-                showToast(`${type} report generated successfully!`, 'success');
-            }, 1500);
+            alert(`${type} report generation feature coming soon!`);
         }
 
-        // UTILITY FUNCTIONS
-        function showToast(message, type = 'success') {
-            const toast = document.createElement('div');
-            toast.className = `toast ${type === 'error' ? 'error' : ''}`;
-            toast.innerHTML = `
-                <i class="fas fa-${type === 'error' ? 'exclamation-circle' : 'check-circle'}"></i>
-                <span>${message}</span>
-            `;
-            
-            const container = document.getElementById('toastContainer');
-            container.appendChild(toast);
-            
-            // Show toast
-            setTimeout(() => {
-                toast.classList.add('show');
-            }, 10);
-            
-            // Auto remove
-            setTimeout(() => {
-                toast.classList.remove('show');
-                setTimeout(() => {
-                    if (toast.parentNode) {
-                        toast.remove();
-                    }
-                }, 300);
-            }, 3000);
+        // ==================== INITIAL LOAD ====================
+        // If user is already logged in, show app
+        if (localStorage.getItem('fintrack_user')) {
+            const savedUser = localStorage.getItem('fintrack_user');
+            currentUser = JSON.parse(savedUser);
+            showApp();
         }
     </script>
 </body>
